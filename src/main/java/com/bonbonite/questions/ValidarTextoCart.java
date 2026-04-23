@@ -1,0 +1,24 @@
+package com.bonbonite.questions;
+
+import com.bonbonite.userinterfaces.PdpPageUI;
+import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.Question;
+import net.serenitybdd.screenplay.questions.Text;
+import net.serenitybdd.screenplay.waits.WaitUntil;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
+
+public class ValidarTextoCart implements Question<String> {
+
+    public static ValidarTextoCart elTextoAñadidoAlCarrito() {
+        return new ValidarTextoCart();
+    }
+
+    @Override
+    public String answeredBy(Actor actor) {
+        // Espera explícita corta por si el DOM se demora en renderizar el alert
+        actor.attemptsTo(
+                WaitUntil.the(PdpPageUI.MSG_SE_AÑADIDO_A_TU_CARRITO, isVisible()).forNoMoreThan(5).seconds()
+        );
+        return Text.of(PdpPageUI.MSG_SE_AÑADIDO_A_TU_CARRITO).answeredBy(actor);
+    }
+}
